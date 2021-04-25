@@ -6,7 +6,7 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - 8401:5000
+      - 5000:5000
     command: ["python", "run.py"]
     depends_on:
       - db
