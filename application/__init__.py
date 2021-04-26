@@ -17,10 +17,11 @@ def init_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = str(os.getenv("SQLALCHEMY_DATABASE_URI"))
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    db.init_app(app)
-    migrate.init_app(app, db)
-
     with app.app_context():
         from .login.routes import login_blueprint
+        from .db_model import User, Tasks, Projects
         app.register_blueprint(login_blueprint)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
     return app
