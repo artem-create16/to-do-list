@@ -9,4 +9,4 @@ def show_login_form():
         email = form.email.data
         password = form.password.data
 
-    return render_template('form.html', html_form=form)
+    return render_template('form_registration.html', html_form=form)

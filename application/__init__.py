@@ -18,9 +18,13 @@ def init_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     with app.app_context():
+        from .main_page.routes import main_blueprint
         from .login.routes import login_blueprint
+        from .registration.routes import registration_blueprint
         from .db_model import User, Tasks, Projects
+        app.register_blueprint(main_blueprint)
         app.register_blueprint(login_blueprint)
+        app.register_blueprint(registration_blueprint)
 
     db.init_app(app)
     migrate.init_app(app, db)

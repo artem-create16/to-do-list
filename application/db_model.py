@@ -1,7 +1,7 @@
 import datetime
 import enum
 from application import db
-
+from werkzeug.security import generate_password_hash,  check_password_hash
 
 class Role(enum.Enum):
     admin = 0
@@ -35,6 +35,12 @@ class User(TimestampMixin, db.Model):
     email = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
     role = db.Column(db.Enum(Role), nullable=False)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class Projects(TimestampMixin, db.Model):
