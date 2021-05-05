@@ -1,8 +1,9 @@
-from flask import render_template, redirect, url_for
-from .form import RegistrationForm
-from application.db_model import User, Role
+from flask import render_template
+from werkzeug.security import generate_password_hash
+
 from application import db
-from werkzeug.security import generate_password_hash,  check_password_hash
+from application.db_model import User, Role
+from .form import RegistrationForm
 
 
 def show_registration_form():

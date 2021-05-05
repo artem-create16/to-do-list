@@ -1,7 +1,8 @@
 from flask import render_template, redirect, url_for
-from .form import LoginForm
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
+
 from application.db_model import User
+from .form import LoginForm
 
 
 def show_login_form():
