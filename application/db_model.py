@@ -3,6 +3,7 @@ import enum
 from application import db
 from werkzeug.security import generate_password_hash,  check_password_hash
 
+
 class Role(enum.Enum):
     admin = 0
     user = 1
@@ -36,11 +37,11 @@ class User(TimestampMixin, db.Model):
     password = db.Column(db.String(), nullable=False)
     role = db.Column(db.Enum(Role), nullable=False)
 
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    # def set_password(self, password):
+    #     self.password_hash = generate_password_hash(password)
+    #
+    # def check_password(self, password):
+    #     return check_password_hash(self.password_hash, password)
 
 
 class Projects(TimestampMixin, db.Model):
