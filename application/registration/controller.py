@@ -1,5 +1,7 @@
-from flask import render_template
+from flask import render_template, flash
 from werkzeug.security import generate_password_hash
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import exc
 
 from application import db
 from application.db_model import User, Role
@@ -14,9 +16,13 @@ def show_registration_form():
         email = form.email.data
         password = form.password.data
         password_hash = generate_password_hash(password)
-        new_user = User(username=username, email=email, password=password_hash, role=Role.user)
-        db.session.add(new_user)
-        db.session.commit()
-        return render_template('successful_registration.html', html_form=form, username=username)
+        try:
+            new_user = User(username=username, email=email, password=password_hash, role=Role.user)
+            db.session.add(new_user)
+            db.session.commit()
+        except exc.IntegrityError:
+            flash('Error')
+        else:
+            return render_template('successful_registration.html', html_form=form, username=username)
 
     return render_template('form_registration.html', html_form=form)
