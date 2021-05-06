@@ -2,6 +2,7 @@ import datetime
 import enum
 from application import db
 from werkzeug.security import generate_password_hash,  check_password_hash
+from flask_login import UserMixin
 
 
 class Role(enum.Enum):
@@ -28,7 +29,7 @@ projects_tasks = db.Table(
 )
 
 
-class User(TimestampMixin, db.Model):
+class User(UserMixin, TimestampMixin, db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -37,14 +38,19 @@ class User(TimestampMixin, db.Model):
     password = db.Column(db.String(), nullable=False)
     role = db.Column(db.Enum(Role), nullable=False)
 
-    # def set_password(self, password):
-    #     self.password_hash = generate_password_hash(password)
-    #
-    # def check_password(self, password):
-    #     return check_password_hash(self.password_hash, password)
+    def set_password(self, password):
+        """Create hashed password."""
+        self.password = generate_password_hash(
+            password,
+            method='sha256'
+        )
+
+    def check_password(self, password):
+        """Check hashed password."""
+        return check_password_hash(self.password, password)
 
 
-class Projects(TimestampMixin, db.Model):
+class Project(TimestampMixin, db.Model):
     __tablename__ = 'projects'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -56,7 +62,7 @@ class Projects(TimestampMixin, db.Model):
     end_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 
-class Tasks(TimestampMixin, db.Model):
+class Task(TimestampMixin, db.Model):
     __tablename__ = 'tasks'
 
     id = db.Column(db.Integer, primary_key=True)

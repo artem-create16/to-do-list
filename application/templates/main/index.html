@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <h1>Index page</h1>
+    {% for project in projects %}
+        <p>Title: {{ project.title }}</p>
+        <p>Subject: {{ project.subject }}</p>
+        <p>Short description: {{ project.short_description }}</p>
+        <p>Description: {{ project.description }}</p>
+        <p>Start date: {{ project.start_date }}</p>
+        <p>End date: {{ project.end_date }}</p>
+        <hr>
+    {% endfor %}
+{% endblock %}
