@@ -22,10 +22,10 @@ class TimestampMixin(object):
     updated_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
 
 
-projects_tasks = db.Table(
-    'projects_tasks',
-    db.Column('projects_id', db.Integer, db.ForeignKey('projects.id')),
-    db.Column('tasks_id', db.Integer, db.ForeignKey('tasks.id'))
+user_project = db.Table(
+    'user_project',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('projects_id', db.Integer, db.ForeignKey('project.id'))
 )
 
 
@@ -51,7 +51,7 @@ class User(UserMixin, TimestampMixin, db.Model):
 
 
 class Project(TimestampMixin, db.Model):
-    __tablename__ = 'projects'
+    __tablename__ = 'project'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), nullable=False)
@@ -63,9 +63,10 @@ class Project(TimestampMixin, db.Model):
 
 
 class Task(TimestampMixin, db.Model):
-    __tablename__ = 'tasks'
+    __tablename__ = 'task'
 
     id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     subject = db.Column(db.String(), nullable=False)
     description = db.Column(db.Text, nullable=False)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

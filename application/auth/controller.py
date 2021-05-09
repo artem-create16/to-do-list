@@ -40,7 +40,9 @@ def sign_in():
 
     form = SignInForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter(
+            (User.email == form.login.data) | (User.username == form.login.data)
+        ).first()
         if user and user.check_password(password=form.password.data):
             login_user(user)
             next_page = request.args.get('next')
