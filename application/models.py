@@ -22,15 +22,15 @@ class TimestampMixin(object):
     updated_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
 
 
-user_project = db.Table(
-    'user_project',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('projects_id', db.Integer, db.ForeignKey('project.id'))
+users_projects = db.Table(
+    'users_projects',
+    db.Column('users_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('projects_id', db.Integer, db.ForeignKey('projects.id'))
 )
 
 
 class User(UserMixin, TimestampMixin, db.Model):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True, nullable=False)
@@ -51,7 +51,7 @@ class User(UserMixin, TimestampMixin, db.Model):
 
 
 class Project(TimestampMixin, db.Model):
-    __tablename__ = 'project'
+    __tablename__ = 'projects'
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), nullable=False)
@@ -63,12 +63,12 @@ class Project(TimestampMixin, db.Model):
 
 
 class Task(TimestampMixin, db.Model):
-    __tablename__ = 'task'
+    __tablename__ = 'tasks'
 
     id = db.Column(db.Integer, primary_key=True)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     subject = db.Column(db.String(), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    assignee_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     status = db.Column(db.Enum(Status), nullable=False)
