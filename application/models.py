@@ -1,7 +1,7 @@
 import datetime
 import enum
 from application import db
-from werkzeug.security import generate_password_hash,  check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
@@ -37,6 +37,7 @@ class User(UserMixin, TimestampMixin, db.Model):
     email = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
     role = db.Column(db.Enum(Role), nullable=False)
+    projects = db.relationship("Project", secondary=users_projects)
 
     def set_password(self, password):
         """Create hashed password."""
