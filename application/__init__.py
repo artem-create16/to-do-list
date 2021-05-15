@@ -23,9 +23,11 @@ def init_app():
     with app.app_context():
         from application.main.routes import main_blueprint
         from application.auth.routes import auth_blueprint
+        from application.project.routes import project_blueprint
         from application.models import User, Task, Project
         app.register_blueprint(main_blueprint)
         app.register_blueprint(auth_blueprint)
+        app.register_blueprint(project_blueprint)
         # commands
         from application.core.commands import seed_db
         app.cli.add_command(seed_db)

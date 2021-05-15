@@ -28,6 +28,16 @@
                         User: {{ current_user.username }} (Role: {{ current_user.role.name }})
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('project.show_projects') }}">
+                        My projects
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('project.create_project') }}">
+                        Create new project
+                    </a>
+                </li>
             {% endif %}
         </ul>
     </div>
