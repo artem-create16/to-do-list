@@ -4,9 +4,9 @@
 
     <div class="row align-items-center h-100">
         <div class="col-6 mx-auto">
-            <form action="" method="POST">
+            <form action="{{ url_for('project.edit_project', project_id=project.id) }}" method="POST">
                 {{ form.csrf_token }}
-                <h1 class="h3 mb-3 fw-normal text-center">Create new project</h1>
+                <h1 class="h3 mb-3 fw-normal text-center">Edit your project</h1>
 
                 <div class="form-floating mb-3">
                     <input type="text" name="title" class="form-control" id="title" placeholder="title">
@@ -28,7 +28,7 @@
                     </textarea>
                 </div>
 
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Create</button>
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Edit</button>
                 <p class="mt-5 mb-3 text-muted text-center"></p>
             </form>
         </div>

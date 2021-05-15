@@ -76,7 +76,7 @@ def sign_up():
             user = User(
                 username=form.username.data,
                 email=form.email.data,
-                role=Role.user
+                role='user'
             )
             user.set_password(form.password.data)
             db.session.add(user)
