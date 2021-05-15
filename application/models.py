@@ -3,11 +3,13 @@ import enum
 from application import db
 from werkzeug.security import generate_password_hash,  check_password_hash
 from flask_login import UserMixin
+from sqlalchemy.dialects.postgresql import ENUM
+from sqlalchemy.orm import relationship
 
 
 class Role(enum.Enum):
-    admin = 0
-    user = 1
+    admin = 'Admin'
+    user = 'User'
 
 
 class Status(enum.Enum):
@@ -24,8 +26,8 @@ class TimestampMixin(object):
 
 users_projects = db.Table(
     'users_projects',
-    db.Column('users_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('projects_id', db.Integer, db.ForeignKey('projects.id'))
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
 )
 
 
@@ -36,7 +38,8 @@ class User(UserMixin, TimestampMixin, db.Model):
     username = db.Column(db.String(), unique=True, nullable=False)
     email = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
-    role = db.Column(db.Enum(Role), nullable=False)
+    role = db.Column(ENUM(Role), nullable=False)
+    projects = relationship('Project', secondary=users_projects, back_populates='users')
 
     def set_password(self, password):
         """Create hashed password."""
@@ -60,6 +63,7 @@ class Project(TimestampMixin, db.Model):
     description = db.Column(db.Text)
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     end_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    users = relationship(User, secondary=users_projects, back_populates='projects')
 
 
 class Task(TimestampMixin, db.Model):
@@ -71,4 +75,4 @@ class Task(TimestampMixin, db.Model):
     description = db.Column(db.Text, nullable=False)
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    status = db.Column(db.Enum(Status), nullable=False)
+    status = db.Column(ENUM(Status), nullable=False)
