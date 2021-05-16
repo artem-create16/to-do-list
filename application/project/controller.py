@@ -15,21 +15,15 @@ def show_project_controller(project_id):
     data = Project.query.filter_by(id=project_id).first()
     return render_template("project/project.html", data=data)
 
-def edit_project_controller(project_id): #its doesnt work
+def edit_project_controller(project_id):
     project = Project.query.filter_by(id=project_id).first()
-    form = ProjectForm()
-    if form.validate_on_submit():
+    if request.method == "POST":
+        form = ProjectForm(request.form, obj=project)
         form.populate_obj(project)
-        db.session.add(project)
         db.session.commit()
+        return redirect(url_for('project.show_project', project_id=project.id))
 
-
-    # if request.method == "POST":
-    #     form = ProjectForm(formdata=request.form, obj=project)
-    #     form.populate_obj(project)
-    #     db.session.commit()
-
-    # form = ProjectForm(obj=project)
+    form = ProjectForm(obj=project)
     return render_template('project/edit_project.html', project=project, form=form)
 
 

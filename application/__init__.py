@@ -1,17 +1,19 @@
 import os
 
-from flask import Flask
-from dotenv import load_dotenv
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 import flask_login
-
+from dotenv import load_dotenv
+from flask import Flask
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 load_dotenv()
 
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = flask_login.LoginManager()
+
 
 
 def init_app():
@@ -34,4 +36,7 @@ def init_app():
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    admin = Admin(app, name='name', template_mode='bootstrap3') #AssertionError
+    # admin.add_view(ModelView(Project, db.session, name='name1'))
     return app
+

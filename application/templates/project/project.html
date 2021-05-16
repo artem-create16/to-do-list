@@ -7,5 +7,5 @@
         <p>Description: {{ data.description }}</p>
         <p>Start date: {{ data.start_date }}</p>
         <p>End date: {{ data.end_date }}</p>
-    <a class="w-25 btn btn-primary" href="{{ url_for('project.edit_project', project_id=data.id)}}">Edit Profile</a>
+    <a class="w-25 btn btn-primary" href="{{ url_for('project.edit_project', project_id=data.id)}}">Edit</a>
 {% endblock %}
