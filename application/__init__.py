@@ -27,6 +27,7 @@ def init_app():
         from application.auth.routes import auth_blueprint
         from application.project.routes import project_blueprint
         from application.models import User, Task, Project
+        from .admin import ProjectView
         app.register_blueprint(main_blueprint)
         app.register_blueprint(auth_blueprint)
         app.register_blueprint(project_blueprint)
@@ -36,7 +37,9 @@ def init_app():
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
-    admin = Admin(app, name='name', template_mode='bootstrap3') #AssertionError
-    # admin.add_view(ModelView(Project, db.session, name='name1'))
+    admin = Admin(app, url='/admin')
+    admin.add_view(ProjectView(Project, db.session, name='Projects',
+                               endpoint="if you insert the word 'admin' here, it doesn't work"))
+
     return app
 
