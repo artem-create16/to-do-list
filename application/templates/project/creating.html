@@ -23,6 +23,28 @@
                     <label for="short_description">Short description</label>
                 </div>
 
+
+                 <div class="form-floating mb-3">
+                    <input type="text" name="users" class="form-control" id="users" placeholder="user">
+                    <label for="users">If you want to add a user for your project, insert his nickname here</label>
+                    <div id="input0"></div>
+                    <div class="add" onclick="addInput()"><input type="button" value="add more members "></div>
+                </div>
+
+                <script>
+                var x = 0;
+
+                function addInput() {
+                  if (x < 100) {
+                    var str = '<input type="text" name="users' + (x + 1) + '" class="form-control" id="users' + (x + 1) + '" placeholder="user"> <div id="input' + (x + 1) + '"></div>';
+                    document.getElementById('input' + x).innerHTML = str;
+                    x++;
+                  } else {
+                    alert('STOP it!');
+                  }
+                }
+                </script>
+
                 <div class="form-group">
                     <label for="description">Description: </label>
                 <div class="form-floating mb-3">

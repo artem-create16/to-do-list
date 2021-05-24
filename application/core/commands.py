@@ -17,7 +17,7 @@ fake = Faker(['it_IT', 'en_US'])
 @with_appcontext
 def seed_db():
     # TODO: fix relationships and add tasks
-    clear_db()
+    # clear_db()
     create_users()
     create_projects()
     create_tasks()
@@ -58,7 +58,7 @@ def create_tasks():
     pass
 
 
-def clear_db():
-    print(f'Removed Tasks: {Task.query.delete()}')
-    print(f'Removed Projects: {Project.query.delete()}')
-    print(f'Removed Users: {User.query.delete()}')
+# def clear_db():
+#     print(f'Removed Tasks: {Task.query.delete()}')
+#     print(f'Removed Projects: {Project.query.delete()}')
+#     print(f'Removed Users: {User.query.delete()}')

@@ -1,10 +1,12 @@
 import datetime
 import enum
-from application import db
-from werkzeug.security import generate_password_hash,  check_password_hash
+
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.orm import relationship
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from application import db
 
 
 class Role(enum.Enum):
@@ -51,6 +53,12 @@ class User(UserMixin, TimestampMixin, db.Model):
     def check_password(self, password):
         """Check hashed password."""
         return check_password_hash(self.password, password)
+
+    # def can(self, rolls):
+    #     pass
+    #
+    # def is_admin(self):
+    #     return current_user.is_authenticated() and current_user.is_admin()
 
 
 class Project(TimestampMixin, db.Model):
