@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <form action="" method="POST">
+                {{ form.csrf_token }}
+                <h1 class="h3 mb-3 fw-normal text-center">Create new project</h1>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="title" class="form-control" id="title" placeholder="title">
+                    <label for="title">Title</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="subject" class="form-control" id="subject" placeholder="subject">
+                    <label for="subject">Subject</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="short_description" id="short_description" placeholder="short_description">
+                    <label for="short_description">Short description</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select id="members" name="members" multiple="multiple">
+                        {% for member in form.users.choices %}
+                            <option value="{{ member.id }}">{{ member.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description: </label>
+                <div class="form-floating mb-3">
+                    <textarea style="white-space: normal" class="form-control rounded-0" name="description" id="description" placeholder="description" rows="10"></textarea>
+                </div>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Create</button>
+                <p class="mt-5 mb-3 text-muted text-center"></p>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

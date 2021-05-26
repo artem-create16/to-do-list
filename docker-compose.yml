@@ -20,5 +20,7 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=db
+    ports:
+      - 5900:5432
 volumes:
   postgres_data:
