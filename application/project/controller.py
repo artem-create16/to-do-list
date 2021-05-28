@@ -4,6 +4,7 @@ from flask_login import current_user
 from application import db
 from application.models import Project
 from application.models import User
+from application.models import users_projects
 from application.project.form import ProjectForm
 
 
@@ -18,15 +19,33 @@ def show_project(project_id):
 
 
 def edit_project(project_id):
+    members = User.query.all()
+
     project = Project.query.filter_by(id=project_id).first()
+
+    project_members = User.query.join(users_projects).join(Project).filter(
+        users_projects.c.project_id == project.id).all()
+
     form = ProjectForm(request.form, obj=project)
+
+    form.users.choices = members
+
     if form.validate_on_submit():
         form.populate_obj(project)
         db.session.commit()
         return redirect(url_for('project.show_project', project_id=project.id))
 
-    form = ProjectForm(obj=project)
-    return render_template('project/edit_project.html', project=project, form=form)
+    return render_template('project/edit_project.html', project=project,
+                           project_members=project_members, form=form)
+
+
+def delete_member_of_project(project_id):
+    project_member = User.query.join(users_projects).join(Project).filter(
+        users_projects.c.project_id == project_id).first()
+
+    """delete member"""
+    db.session.commit()
+    return redirect(url_for('project.edit_project', project_id=project_id))
 
 
 def delete_project(project_id):

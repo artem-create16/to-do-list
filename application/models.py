@@ -54,12 +54,6 @@ class User(UserMixin, TimestampMixin, db.Model):
         """Check hashed password."""
         return check_password_hash(self.password, password)
 
-    # def can(self, rolls):
-    #     pass
-    #
-    # def is_admin(self):
-    #     return current_user.is_authenticated() and current_user.is_admin()
-
 
 class Project(TimestampMixin, db.Model):
     __tablename__ = 'projects'

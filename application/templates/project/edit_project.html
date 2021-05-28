@@ -30,6 +30,21 @@
                         {{ project.description }}
                     </textarea>
                 </div>
+
+                <div class="form-floating mb-3">
+                    <h6>currently users:</h6>
+                    {% for project_member in project_members %}
+                        <p>{{ project_member.username }} <a type="button" href="{{ url_for('project.delete_member_of_project', project_id=project.id, user_id=project_member.id) }}">delete</a></p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select id="members" name="members" multiple="multiple">
+                        {% for member in form.users.choices %}
+                            <option value="{{ member.id }}">{{ member.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 </div>
 
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Edit</button>
