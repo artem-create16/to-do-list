@@ -11,6 +11,6 @@ def create_task(project_id):
     return controller.create_task(project_id)
 
 
-@task_blueprint.route('/<project_id>/delete')
-def delete_task(task_id):
-    return controller.delete_task(task_id)
+@task_blueprint.route('/<task_id>/<project_id>/delete')
+def delete_task(task_id, project_id):
+    return controller.delete_task(task_id, project_id)

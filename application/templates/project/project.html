@@ -13,10 +13,16 @@
     <a type="button" class="btn btn-outline-danger" href="{{ url_for('project.delete_project', project_id=project_data.id) }}">Delete</a>
 
     <h3>Tasks:</h3>
-    {% for task in task_data %}
-        <p>Subject: {{ task.subject }}</p>
-        <p>Description: {{ task.description }}</p>
-        <hr>
-    {% endfor %}
+    {% if task_data %}
+        {% for task in task_data %}
+            <p>Subject: {{ task.subject }}</p>
+            <p>Description: {{ task.description }}</p>
+            <p>Status: {{ task.status.value }}</p>
+            <a type="button" class="btn btn-outline-danger" href="{{ url_for('task.delete_task', task_id=task.id, project_id=project_data.id) }}">Delete</a>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <h5>No tasks yet</h5>
+    {% endif %}
 
 {% endblock %}

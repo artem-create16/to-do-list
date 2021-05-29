@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
 
 from application import db
@@ -31,5 +31,9 @@ def create_task(project_id):
     return render_template('task/creating.html', title='Creating task', form=form)
 
 
-def delete_task(task_id):
-    task = Task.query.filter_by(id=task_id)
+def delete_task(task_id, project_id):
+    task = Task.query.filter_by(id=task_id).first()
+    db.session.delete(task)
+    db.session.commit()
+    flash(f'The task {task.subject} has been deleted')
+    return redirect(url_for('project.show_project', project_id=project_id))
