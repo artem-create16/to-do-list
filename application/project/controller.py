@@ -2,8 +2,7 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
 
 from application import db
-from application.models import Project
-from application.models import User
+from application.models import Project, User, Task
 from application.models import users_projects
 from application.project.form import ProjectForm
 
@@ -14,24 +13,28 @@ def show_projects():
 
 
 def show_project(project_id):
-    data = Project.query.filter_by(id=project_id).first()
-    return render_template("project/project.html", data=data)
+    project_data = Project.query.filter_by(id=project_id).first()
+    task_data = Task.query.filter_by(project_id=project_id).all()
+    return render_template("project/project.html",
+                           project_data=project_data, task_data=task_data)
 
 
 def edit_project(project_id):
     members = User.query.all()
-
     project = Project.query.filter_by(id=project_id).first()
-
     project_members = User.query.join(users_projects).join(Project).filter(
         users_projects.c.project_id == project.id).all()
-
     form = ProjectForm(request.form, obj=project)
-
     form.users.choices = members
-
     if form.validate_on_submit():
         form.populate_obj(project)
+        multiselect = request.form.getlist('members')
+        elected_members = (list(map(int, multiselect)))
+        for user in elected_members:
+            existing_user = User.query.filter_by(id=user).first()
+            project.users.append(existing_user)
+            if existing_user is None:
+                flash('Unexpected user')
         db.session.commit()
         return redirect(url_for('project.show_project', project_id=project.id))
 
@@ -39,12 +42,14 @@ def edit_project(project_id):
                            project_members=project_members, form=form)
 
 
-def delete_member_of_project(project_id):
+def delete_member_of_project(project_id, user_id):
     project_member = User.query.join(users_projects).join(Project).filter(
-        users_projects.c.project_id == project_id).first()
+        users_projects.c.user_id == user_id and users_projects.c.project_id == project_id).first()
 
-    """delete member"""
+    project = Project.query.filter_by(id=project_id).first()
+    project.users.remove(project_member)
     db.session.commit()
+    flash(f'user {project_member.username} has been removed from this project')
     return redirect(url_for('project.edit_project', project_id=project_id))
 
 

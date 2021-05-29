@@ -38,8 +38,8 @@ def delete_project(project_id):
     return controller.delete_project(project_id)
 
 
-@project_blueprint.route('/<project_id>/del')
+@project_blueprint.route('/<project_id>/<user_id>/del')
 @login_required
-def delete_member_of_project(project_id):
-    return controller.delete_member_of_project(project_id)
+def delete_member_of_project(project_id, user_id):
+    return controller.delete_member_of_project(project_id, user_id)
 

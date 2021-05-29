@@ -1,14 +1,22 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>{{ data.title }}</h1>
-        <p>Subject: {{ data.subject }}</p>
-        <p>Short description: {{ data.short_description }}</p>
-        <p>Description: {{ data.description }}</p>
-        <p>Start date: {{ data.start_date }}</p>
-        <p>End date: {{ data.end_date }}</p>
+    <h1>{{ project_data.title }}</h1>
+        <p>Subject: {{ project_data.subject }}</p>
+        <p>Short description: {{ project_data.short_description }}</p>
+        <p>Description: {{ project_data.description }}</p>
+        <p>Start date: {{ project_data.start_date }}</p>
+        <p>End date: {{ project_data.end_date }}</p>
 
-    <a type="button" class="btn btn-outline-primary" href="{{ url_for('project.edit_project', project_id=data.id) }}">Edit</a>
-    <a type="button" class="btn btn-outline-danger" href="{{ url_for('project.delete_project', project_id=data.id) }}">Delete</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('project.edit_project', project_id=project_data.id) }}">Edit</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.create_task', project_id=project_data.id) }}">Create task</a>
+    <a type="button" class="btn btn-outline-danger" href="{{ url_for('project.delete_project', project_id=project_data.id) }}">Delete</a>
+
+    <h3>Tasks:</h3>
+    {% for task in task_data %}
+        <p>Subject: {{ task.subject }}</p>
+        <p>Description: {{ task.description }}</p>
+        <hr>
+    {% endfor %}
 
 {% endblock %}
