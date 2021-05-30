@@ -8,6 +8,7 @@
     {% for project in projects %}
         <a href="{{ url_for('project.show_project', project_id=project.id) }}">Title: {{ project.title }}</a>
         <p>Subject: {{ project.subject }}</p>
+        <a href="{{ url_for('task.show_tasks_for_user', project_id=project.id) }}">You have tasks</a>
         <hr>
     {% endfor %}
     </body>

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <head>
+        <title>My tasks</title>
+    </head>
+    <body>
+    {% for task in tasks_data %}
+        <h1>Task: {{ task.subject }}</h1>
+        <p>Project: {{ project_data.title }}</p>
+        <p>Description: {{ task.description }}</p>
+        <p>Status: {{ task.status.value }}</p>
+        <hr>
+    {% endfor %}
+        </body>
+{% endblock %}

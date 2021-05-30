@@ -13,7 +13,6 @@ def create_task(project_id):
     form = TaskForm()
     form.assignee_id.choices = members
     if request.method == 'POST':
-        print("YEEEESSS", flush=True)
         creator = User.query.filter_by(username=current_user.username).first()
         select = request.form.getlist('members')
         assignee_id = int(select[0])
@@ -37,3 +36,15 @@ def delete_task(task_id, project_id):
     db.session.commit()
     flash(f'The task {task.subject} has been deleted')
     return redirect(url_for('project.show_project', project_id=project_id))
+
+
+def show_task(task_id, project_id):
+    task_data = Task.query.filter_by(id=task_id).first()
+    project_data = Project.query.filter_by(id=project_id).first()
+    return render_template("task/task.html", task_data=task_data, project_data=project_data)
+
+
+def show_tasks_for_user(project_id):
+    tasks_data = Task.query.filter_by(project_id=project_id, assignee_id=current_user.id).all()
+    project_data = Project.query.filter_by(id=project_id).first()
+    return render_template('task/users_tasks.html', tasks_data=tasks_data, project_data=project_data)

@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+        <h1>Task: {{ task_data.subject }}</h1>
+        <p>Project: {{ project_data.title }}</p>
+        <p>Description: {{ task_data.description }}</p>
+        <p>Status: {{ task_data.status.value }}</p>
+
+<a type="button" class="btn btn-outline-danger" href="{{ url_for('project.show_project', project_id=project_data.id) }}">Exit</a>
+
+{% endblock %}

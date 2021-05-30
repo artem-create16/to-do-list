@@ -25,7 +25,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
-                        User: {{ current_user.username }} (Role: {{ current_user.role.name }})
+                        User: {{ current_user.username }} (Role: {{ current_user.role.value }})
                     </a>
                 </li>
                 <li class="nav-item">
@@ -34,12 +34,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    {% if current_user.role.name == 'admin' %}
                     <a class="nav-link" href="{{ url_for('project.create_project') }}">
                         Create new project
                     </a>
                 </li>
                 <li class="nav-item">
-                    {% if current_user.role.name == 'admin' %}
                     <a class="nav-link" href="/admin">Admin</a>
                     {% endif %}
                 </li>

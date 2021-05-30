@@ -8,17 +8,21 @@
         <p>Start date: {{ project_data.start_date }}</p>
         <p>End date: {{ project_data.end_date }}</p>
 
+    {% if current_user.role.name == 'admin' %}
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('project.edit_project', project_id=project_data.id) }}">Edit</a>
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.create_task', project_id=project_data.id) }}">Create task</a>
     <a type="button" class="btn btn-outline-danger" href="{{ url_for('project.delete_project', project_id=project_data.id) }}">Delete</a>
+    {% endif %}
 
     <h3>Tasks:</h3>
     {% if task_data %}
         {% for task in task_data %}
-            <p>Subject: {{ task.subject }}</p>
+            <a type="text" href="{{ url_for('task.show_task', task_id=task.id, project_id=project_data.id) }}">Subject: {{ task.subject }}</a>
             <p>Description: {{ task.description }}</p>
             <p>Status: {{ task.status.value }}</p>
+            {% if current_user.role.name == 'admin' %}
             <a type="button" class="btn btn-outline-danger" href="{{ url_for('task.delete_task', task_id=task.id, project_id=project_data.id) }}">Delete</a>
+            {% endif %}
             <hr>
         {% endfor %}
     {% else %}
