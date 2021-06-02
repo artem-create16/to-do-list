@@ -5,7 +5,18 @@
         <p>Project: {{ project_data.title }}</p>
         <p>Description: {{ task_data.description }}</p>
         <p>Status: {{ task_data.status.value }}</p>
+        <form>
+        <input type="radio" name="select"
+        value="to_do" checked> To Do
+        <input type="radio" name="select"
+        value="in_progress"> In Progress
+        <input type="radio" name="select"
+        value="in_review"> In Review
+        <input type="radio" name="select"
+        value="done"> Done
 
+        </form>
+<a type="button" class="btn btn-outline-primary" href="{{ url_for('project.show_project', project_id=project_data.id) }}">Save</a>
 <a type="button" class="btn btn-outline-danger" href="{{ url_for('project.show_project', project_id=project_data.id) }}">Exit</a>
 
 {% endblock %}

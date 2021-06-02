@@ -38,7 +38,12 @@ def init_app():
     migrate.init_app(app, db)
     login_manager.init_app(app)
     admin = Admin(app, name='To do list', url='/', index_view=HomeAdminView(name='Home'))
+
+    admin.add_view(AdminView(User, db.session, name='Users',
+                             endpoint='User'))
     admin.add_view(AdminView(Project, db.session, name='Projects',
-                             endpoint="if you insert the word 'admin' here, it doesn't work"))
+                             endpoint='Project'))
+    admin.add_view(AdminView(Task, db.session, name='Tasks',
+                             endpoint='Task'))
 
     return app

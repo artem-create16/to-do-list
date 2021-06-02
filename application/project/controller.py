@@ -19,6 +19,17 @@ def show_project(project_id):
                            project_data=project_data, task_data=task_data)
 
 
+def save_data(project):
+    multiselect = request.form.getlist('members')
+    elected_members = (list(map(int, multiselect)))
+    for user in elected_members:
+        existing_user = User.query.filter_by(id=user).first()
+        project.users.append(existing_user)
+        if existing_user is None:
+            flash('Unexpected user')
+    db.session.commit()
+
+
 def edit_project(project_id):
     members = User.query.all()
     project = Project.query.filter_by(id=project_id).first()
@@ -30,11 +41,15 @@ def edit_project(project_id):
         form.populate_obj(project)
         multiselect = request.form.getlist('members')
         elected_members = (list(map(int, multiselect)))
-        for user in elected_members:
-            existing_user = User.query.filter_by(id=user).first()
-            project.users.append(existing_user)
-            if existing_user is None:
-                flash('Unexpected user')
+        if elected_members:
+            for user in elected_members:
+                existing_user = User.query.filter_by(id=user).first()
+                project.users.append(existing_user)
+                if existing_user is None:
+                    flash('Unexpected user')
+        else:
+            for i in project_members:
+                project.users.append(i)
         db.session.commit()
         return redirect(url_for('project.show_project', project_id=project.id))
 

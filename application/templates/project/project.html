@@ -14,7 +14,7 @@
     <a type="button" class="btn btn-outline-danger" href="{{ url_for('project.delete_project', project_id=project_data.id) }}">Delete</a>
     {% endif %}
 
-    <h3>Tasks:</h3>
+    <h3>Tasks for you:</h3>
     {% if task_data %}
         {% for task in task_data %}
             <a type="text" href="{{ url_for('task.show_task', task_id=task.id, project_id=project_data.id) }}">Subject: {{ task.subject }}</a>
