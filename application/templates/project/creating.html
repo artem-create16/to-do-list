@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <select id="members" name="members" multiple="multiple">
+                    <select style="width:100%;" size="7" id="members" name="members" multiple="multiple">
                         {% for member in form.users.choices %}
                             <option value="{{ member.id }}">{{ member.username }}</option>
                         {% endfor %}
