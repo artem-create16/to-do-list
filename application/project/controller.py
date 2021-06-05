@@ -7,21 +7,20 @@ from application.project.form import ProjectForm
 
 
 def show_projects():
-    projects = current_user.projects[::-1]
+    projects = current_user.projects
+    projects.reverse()
     return render_template("project/all_projects.html", projects=projects)
 
 
 def show_project(project_id):
     project_data = Project.query.get(project_id)
-    task_data = Task.query.filter_by(project_id=project_id).all()
-    return render_template("project/project.html",
-                           project_data=project_data, task_data=task_data)
+    return render_template("project/project.html", project_data=project_data)
 
 
 def save_data(project):
     multiselect = request.form.getlist('members')
     elected_members = map(int, multiselect)
-    members = [User.query.get(user) for user in elected_members]
+    members = User.query.filter(User.id.in_(elected_members)).all()
     project.users.extend(members)
     db.session.commit()
 
@@ -44,15 +43,13 @@ def create_project():
 def edit_project(project_id):
     members = User.query.all()
     project = Project.query.get(project_id)
-    project_members = [project_member for project_member in project.users]
     form = ProjectForm(request.form, obj=project)
     form.users.choices = members
     if form.validate_on_submit():
         form.populate_obj(project)
         save_data(project)
         return redirect(url_for('project.show_project', project_id=project.id))
-    return render_template('project/edit_project.html',
-                           project_members=project_members, project=project, form=form)
+    return render_template('project/edit_project.html', project=project, form=form)
 
 
 def delete_project(project_id):

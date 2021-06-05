@@ -35,7 +35,7 @@
                     <h5>If you want to add or delete users to the project, select them here:</h5>
                     <select style="width:100%;" size="7" id="members" name="members" multiple="multiple">
                         {% for member in form.users.choices %}
-                            {% if member in project_members %}
+                            {% if member in project.users %}
                                 <option  value="{{ member.id }}" selected>{{ member.username }}</option>
                             {% else %}
                                 <option  value="{{ member.id }}">{{ member.username }}</option>
