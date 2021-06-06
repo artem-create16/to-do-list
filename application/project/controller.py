@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
 
 from application import db
-from application.models import Project, User, Task
+from application.models import Project, User
 from application.project.form import ProjectForm
 
 
@@ -58,6 +58,3 @@ def delete_project(project_id):
     db.session.commit()
     flash(f'The project {project.title} has been deleted')
     return redirect(url_for('project.show_projects'))
-
-
-

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>All tasks:</h1>
+    <body>
+        {% for task in tasks_data %}
+            <p>Subject: {{ task.subject }}</p>
+            <p>Description: {{ task.description }}</p>
+            <p>Status: {{ task.status.value }}</p>
+            {% if current_user.role.name == 'admin' %}
+                <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.edit_task', task_id=task.id) }}">Edit</a>
+                <a type="button" class="btn btn-outline-danger" href="{{ url_for('task.delete_task', task_id=task.id) }}">Delete</a>
+            {% endif %}
+            <hr>
+        {% endfor %}
+    </body>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <form action="{{ url_for('project.edit_project', project_id=project.id) }}" method="POST">
+                {{ form.csrf_token }}
+                <h1 class="h3 mb-3 fw-normal text-center">Edit your task</h1>
+
+                <div class="form-floating mb-3">
+                    <input value="{{ task.subject }}" type="text" name="subject" class="form-control" id="subject" placeholder="subject">
+                    <label for="subject">Subject</label>
+                </div>
+
+                <select style="width:100%;" size="7" id="members" name="members">
+                        {% for member in form.assignee_id.choices %}
+                            {% if member.id == task.assignee_id %}
+                                <option value="{{ member.id }}" selected>{{ member.username }}</option>
+                            {% else %}
+                                <option value="{{ member.id }}">{{ member.username }}</option>
+                            {% endif %}
+                        {% endfor %}
+                </select>
+
+                <div class="form-floating mb-3">
+                    <input value="{{ task.description }}" type="text" name="description" class="form-control" id="description" placeholder="description">
+                    <label for="description">Description</label>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit">Edit</button>
+                <p class="mt-5 mb-3 text-muted text-center"></p>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

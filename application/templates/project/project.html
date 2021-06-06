@@ -12,21 +12,10 @@
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('project.edit_project', project_id=project_data.id) }}">Edit</a>
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.create_task', project_id=project_data.id) }}">Create task</a>
     <a type="button" class="btn btn-outline-danger" href="{{ url_for('project.delete_project', project_id=project_data.id) }}">Delete</a>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.show_tasks', project_id=project_data.id) }}">All tasks</a>
     {% endif %}
-
-    <h3>Tasks for you:</h3>
-    {% if task_data %}
-        {% for task in task_data %}
-            <a type="text" href="{{ url_for('task.show_task', task_id=task.id, project_id=project_data.id) }}">Subject: {{ task.subject }}</a>
-            <p>Description: {{ task.description }}</p>
-            <p>Status: {{ task.status.value }}</p>
-            {% if current_user.role.name == 'admin' %}
-            <a type="button" class="btn btn-outline-danger" href="{{ url_for('task.delete_task', task_id=task.id, project_id=project_data.id) }}">Delete</a>
-            {% endif %}
-            <hr>
-        {% endfor %}
-    {% else %}
-        <h5>No tasks yet</h5>
-    {% endif %}
+    <div>
+    <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.show_tasks_for_user', project_id=project_data.id) }}">My tasks</a>
+    </div>
 
 {% endblock %}
