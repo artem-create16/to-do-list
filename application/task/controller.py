@@ -6,13 +6,16 @@ from application.models import User, Task, users_projects, Project
 from application.task.form import TaskForm
 
 
+def save_data(form, project_id):
+    pass
+
+
 def create_task(project_id):
     project = Project.query.get(project_id)
     members = project.users
     form = TaskForm()
     form.assignee_id.choices = members
     if request.method == 'POST':
-    # if form.validate_on_submit(): из-за селекта не работает, хз поч
         creator = User.query.get(current_user.id)
         elected_member = request.form.get('members')
         assignee_id = int(elected_member)
@@ -30,6 +33,20 @@ def create_task(project_id):
     return render_template('task/creating.html', title='Creating task', form=form)
 
 
+def edit_task(task_id):
+    task = Task.query.get(task_id)
+    project_id = task.project_id
+    project = Project.query.get(project_id)
+    members = project.users
+    form = TaskForm(request.form, obj=task)
+    form.assignee_id.choices = members
+    if request.method == 'POST':
+        form.populate_obj(task)
+        db.session.commit()
+        return redirect(url_for('task.show_tasks', project_id=project_id))
+    return render_template('task/edit_task.html', task=task, project_id=project_id, form=form)
+
+
 def delete_task(task_id):
     task = Task.query.get(task_id)
     project_id=task.project_id
@@ -41,6 +58,7 @@ def delete_task(task_id):
 
 def show_tasks(project_id):
     tasks_data = Task.query.filter_by(project_id=project_id).all()
+    tasks_data.reverse()
     return render_template('task/tasks.html', tasks_data=tasks_data, project_id=project_id)
 
 
@@ -50,29 +68,4 @@ def show_tasks_for_user(project_id):
     return render_template('task/users_tasks.html', tasks_data=tasks_data, project_data=project_data)
 
 
-def edit_task(task_id):
-    # project = Project.query.get(project_id)
-    task = Task.query.get(task_id)
-    project_id = task.project_id
-    project = Project.query.get(project_id)
-    members = project.users
-    form = TaskForm(request.form, obj=task)
-    form.assignee_id.choices = members
-    if request.method == 'POST':
-        form.populate_obj(task)
-        creator = User.query.get(current_user.id)
-        elected_member = request.form.get('members')
-        assignee_id = int(elected_member)
-        project_id = task.project_id
-        task = Task(
-            project_id=project_id,
-            subject=form.subject.data,
-            description=form.description.data,
-            creator_id=creator.id,
-            assignee_id=assignee_id,
-            status='to_do'
-        )
-        db.session.add(task)
-        db.session.commit()
-        return redirect(url_for('task.show_tasks', project_id=project_id))
-    return render_template('task/edit_task.html', task=task, form=form)
+

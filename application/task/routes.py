@@ -25,19 +25,19 @@ def delete_task(task_id):
     return controller.delete_task(task_id)
 
 
-@task_blueprint.route('/<project_id>/tasks')
+@task_blueprint.route('/<project_id>/tasks', methods=['GET', 'POST'])
 @login_required
 def show_tasks(project_id):
     return controller.show_tasks(project_id)
 
 
-@task_blueprint.route('/<project_id>/my-tasks')
+@task_blueprint.route('/<project_id>/my-tasks', methods=['GET', 'POST'])
 @login_required
 def show_tasks_for_user(project_id):
     return controller.show_tasks_for_user(project_id)
 
 
-@task_blueprint.route('/<task_id>/edit')
+@task_blueprint.route('/<task_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_task(task_id):
     return controller.edit_task(task_id)
