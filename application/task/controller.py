@@ -43,11 +43,7 @@ def edit_task(task_id):
     # task.assignee_id = int(request.form.get('members'))
     # task.status = request.form.get('status')
     if request.method == 'POST':
-        # status = request.form.get('status')
-        # print(status, flush=True)
         form.populate_obj(task)
-
-        # task.put()
         db.session.commit()
         return redirect(url_for('task.show_tasks', project_id=project_id))
     return render_template('task/edit_task.html', task=task, project_id=project_id, form=form)
