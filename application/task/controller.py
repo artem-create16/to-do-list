@@ -62,12 +62,3 @@ def show_tasks(project_id):
     tasks_data = Task.query.filter_by(project_id=project_id).all()
     tasks_data.reverse()
     return render_template('task/tasks.html', tasks_data=tasks_data, project_id=project_id)
-
-#
-# def show_tasks_for_user(project_id):
-#     tasks_data = Task.query.filter_by(project_id=project_id, assignee_id=current_user.id).all()
-#     project_data = Project.query.get(project_id)
-#     return render_template('task/users_tasks.html', tasks_data=tasks_data, project_data=project_data)
-
-
-
