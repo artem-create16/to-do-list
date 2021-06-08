@@ -6,10 +6,6 @@ from application.models import User, Task, users_projects, Project
 from application.task.form import TaskForm
 
 
-def save_data(form, project_id):
-    pass
-
-
 def create_task(project_id):
     project = Project.query.get(project_id)
     members = project.users
@@ -40,8 +36,6 @@ def edit_task(task_id):
     members = project.users
     form = TaskForm(request.form, obj=task)
     form.assignee_id.choices = members
-    # task.assignee_id = int(request.form.get('members'))
-    # task.status = request.form.get('status')
     if request.method == 'POST':
         form.populate_obj(task)
         db.session.commit()

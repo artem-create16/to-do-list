@@ -8,5 +8,5 @@ class TaskForm(FlaskForm):
     description = StringField('Description')
     creator_id = StringField('Creator_id', validators=[DataRequired()])
     assignee_id = SelectField('Assignee_id', choices=[])
-    status = BooleanField("status")
+    status = SelectField('status')
     submit = SubmitField('Create')

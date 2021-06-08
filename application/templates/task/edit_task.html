@@ -12,7 +12,7 @@
                     <label for="subject">Subject</label>
                 </div>
 
-                <select style="width:100%;" size="7" id="members" name="members">
+                <select style="width:100%;" size="7" id="assignee_id" name="assignee_id">
                         {% for member in form.assignee_id.choices %}
                             {% if member.id == task.assignee_id %}
                                 <option value="{{ member.id }}" selected>{{ member.username }}</option>
