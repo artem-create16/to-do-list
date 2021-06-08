@@ -27,7 +27,18 @@
                     <label for="description">Description</label>
                 </div>
 
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Edit</button>
+               <div class="form-floating mb-3">
+                    <input type="radio" name="status" id="status_1"
+                    value="to_do" checked> To Do
+                    <input type="radio" name="status" id="status_2"
+                    value="in_progress"> In Progress
+                    <input type="radio" name="status" id="status_3"
+                    value="in_review"> In Review
+                    <input type="radio" name="status" id="status_4"
+                    value="done"> Done
+               </div>
+
+               <button class="w-100 btn btn-lg btn-primary" type="submit">Edit</button>
             </form>
         </div>
     </div>

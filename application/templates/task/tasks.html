@@ -1,15 +1,19 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>All tasks:</h1>
+
     <body>
         {% for task in tasks_data %}
-            <p>Subject: {{ task.subject }}</p>
-            <p>Description: {{ task.description }}</p>
-            <p>Status: {{ task.status.value }}</p>
-            {% if current_user.role.name == 'admin' %}
-                <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.edit_task', task_id=task.id) }}">Edit</a>
-                <a type="button" class="btn btn-outline-danger" href="{{ url_for('task.delete_task', task_id=task.id) }}">Delete</a>
+            {% if task.assignee_id == current_user.id or current_user.role.name == 'admin' %}
+                <p>Subject: {{ task.subject }}</p>
+                <p>Description: {{ task.description }}</p>
+                <p>Creator: {{ task.creator_id }}</p>
+                <p>Assignee: {{ task.assignee_id }}</p>
+                <p>Status: {{ task.status.value }}</p>
+                {% if current_user.role.name == 'admin' %}
+                    <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.edit_task', task_id=task.id) }}">Edit</a>
+                    <a type="button" class="btn btn-outline-danger" href="{{ url_for('task.delete_task', task_id=task.id) }}">Delete</a>
+                {% endif %}
             {% endif %}
             <hr>
         {% endfor %}

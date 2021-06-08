@@ -40,8 +40,14 @@ def edit_task(task_id):
     members = project.users
     form = TaskForm(request.form, obj=task)
     form.assignee_id.choices = members
+    # task.assignee_id = int(request.form.get('members'))
+    # task.status = request.form.get('status')
     if request.method == 'POST':
+        # status = request.form.get('status')
+        # print(status, flush=True)
         form.populate_obj(task)
+
+        # task.put()
         db.session.commit()
         return redirect(url_for('task.show_tasks', project_id=project_id))
     return render_template('task/edit_task.html', task=task, project_id=project_id, form=form)
@@ -49,7 +55,7 @@ def edit_task(task_id):
 
 def delete_task(task_id):
     task = Task.query.get(task_id)
-    project_id=task.project_id
+    project_id = task.project_id
     db.session.delete(task)
     db.session.commit()
     flash(f'The task {task.subject} has been deleted')
@@ -61,11 +67,11 @@ def show_tasks(project_id):
     tasks_data.reverse()
     return render_template('task/tasks.html', tasks_data=tasks_data, project_id=project_id)
 
-
-def show_tasks_for_user(project_id):
-    tasks_data = Task.query.filter_by(project_id=project_id, assignee_id=current_user.id).all()
-    project_data = Project.query.get(project_id)
-    return render_template('task/users_tasks.html', tasks_data=tasks_data, project_data=project_data)
+#
+# def show_tasks_for_user(project_id):
+#     tasks_data = Task.query.filter_by(project_id=project_id, assignee_id=current_user.id).all()
+#     project_data = Project.query.get(project_id)
+#     return render_template('task/users_tasks.html', tasks_data=tasks_data, project_data=project_data)
 
 
 
