@@ -32,15 +32,14 @@ def create_task(project_id):
 def edit_task(task_id):
     task = Task.query.get(task_id)
     project_id = task.project_id
-    project = Project.query.get(project_id)
-    members = project.users
     form = TaskForm(request.form, obj=task)
-    form.assignee_id.choices = members
+    form.assignee_id.choices = task.project.users
+    statuses = {'to_do': 'To do', 'in_progress': 'In progress', 'in_review': 'In review', 'done': 'Done'}
     if request.method == 'POST':
         form.populate_obj(task)
         db.session.commit()
         return redirect(url_for('task.show_tasks', project_id=project_id))
-    return render_template('task/edit_task.html', task=task, project_id=project_id, form=form)
+    return render_template('task/edit_task.html', task=task, project_id=project_id, statuses=statuses, form=form)
 
 
 def delete_task(task_id):

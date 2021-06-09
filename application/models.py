@@ -66,6 +66,7 @@ class Project(TimestampMixin, db.Model):
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     end_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     users = relationship(User, secondary=users_projects, back_populates='projects')
+    tasks = relationship('Task', back_populates='project')
 
 
 class Task(TimestampMixin, db.Model):
@@ -73,6 +74,7 @@ class Task(TimestampMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
+    project = relationship('Project', back_populates='tasks')
     subject = db.Column(db.String(), nullable=False)
     description = db.Column(db.Text, nullable=False)
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

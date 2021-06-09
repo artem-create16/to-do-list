@@ -13,8 +13,7 @@
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.create_task', project_id=project_data.id) }}">Create task</a>
     <a type="button" class="btn btn-outline-danger" href="{{ url_for('project.delete_project', project_id=project_data.id) }}">Delete</a>
     {% endif %}
-    <div>
     <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.show_tasks', project_id=project_data.id) }}">Tasks</a>
-    </div>
+
 
 {% endblock %}

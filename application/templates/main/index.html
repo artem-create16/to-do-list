@@ -2,6 +2,12 @@
 
 {% block content %}
     <h1>Index page</h1>
+    <br>
+    <form style="display: flex; width:25%"  class="form-inline my-2 my-lg-0">
+        <input style="width: 100%" class="form-control mr-sm-2" type="search" placeholder="Search project" aria-label="Search" name="search" value="{{ request.args.get('search', '') }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <br>
     {% for project in projects %}
         <a href="{{ url_for('project.show_project', project_id=project.id) }}">Title: {{ project.title }}</a>
         <p>Subject: {{ project.subject }}</p>

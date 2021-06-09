@@ -5,15 +5,15 @@
         <div class="col-6 mx-auto">
             <form method="POST">
                 {{ form.csrf_token }}
+                {% if current_user.role.name == 'admin' %}
                 <h1 class="h3 mb-3 fw-normal text-center">Edit your task</h1>
-
-                <div class="form-floating mb-3">
-                    <input value="{{ task.subject }}" type="text" name="subject" class="form-control" id="subject" placeholder="subject">
-                    <label for="subject">Subject</label>
-                </div>
+                    <div class="form-floating mb-3">
+                        <input value="{{ task.subject }}" type="text" name="subject" class="form-control" id="subject" placeholder="subject" >
+                        <label for="subject">Subject</label>
+                    </div>
 
                 <select style="width:100%;" size="7" id="assignee_id" name="assignee_id">
-                        {% for member in form.assignee_id.choices %}
+                        {% for member in task.project.users %}
                             {% if member.id == task.assignee_id %}
                                 <option value="{{ member.id }}" selected>{{ member.username }}</option>
                             {% else %}
@@ -26,18 +26,28 @@
                     <input value="{{ task.description }}" type="text" name="description" class="form-control" id="description" placeholder="description">
                     <label for="description">Description</label>
                 </div>
-
-               <div class="form-floating mb-3">
-                    <input type="radio" name="status" id="status_1"
-                    value="to_do" checked> To Do
-                    <input type="radio" name="status" id="status_2"
-                    value="in_progress"> In Progress
-                    <input type="radio" name="status" id="status_3"
-                    value="in_review"> In Review
-                    <input type="radio" name="status" id="status_4"
-                    value="done"> Done
-               </div>
-
+                {% for status in statuses %}
+                    {% if status == task.status.name %}
+                       <div class="form-floating mb-3">
+                            <input type="radio" name="status" id="{{ status }}"
+                            value="{{ status }}" checked> {{ statuses[status] }}
+                       </div>
+                    {% else %}
+                       <div class="form-floating mb-3">
+                            <input type="radio" name="status" id="{{ status }}1"
+                            value="{{ status }}"> {{ statuses[status] }}
+                       </div>
+                    {% endif %}
+                {% endfor %}
+                {% else %}
+                    <h3>Edit the status for your task</h3>
+                    <div class="form-floating mb-3">
+                        <input type="radio" name="status" id="status_1"
+                        value="to_do" checked> To Do
+                        <input type="radio" name="status" id="status_2"
+                        value="in_progress"> In Progress
+                    </div>
+                {% endif %}
                <button class="w-100 btn btn-lg btn-primary" type="submit">Edit</button>
             </form>
         </div>
