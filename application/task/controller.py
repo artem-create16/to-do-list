@@ -2,15 +2,14 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
 
 from application import db
-from application.models import User, Task, users_projects, Project
+from application.models import User, Task, Project
 from application.task.form import TaskForm
 
 
 def create_task(project_id):
     project = Project.query.get(project_id)
-    members = project.users
     form = TaskForm()
-    form.assignee_id.choices = members
+    form.assignee_id.choices = project.users
     if request.method == 'POST':
         creator = User.query.get(current_user.id)
         elected_member = request.form.get('members')
@@ -34,7 +33,12 @@ def edit_task(task_id):
     project_id = task.project_id
     form = TaskForm(request.form, obj=task)
     form.assignee_id.choices = task.project.users
-    statuses = {'to_do': 'To do', 'in_progress': 'In progress', 'in_review': 'In review', 'done': 'Done'}
+    statuses = {
+        'to_do': 'To do',
+        'in_progress': 'In progress',
+        'in_review': 'In review',
+        'done': 'Done'
+        }
     if request.method == 'POST':
         form.populate_obj(task)
         db.session.commit()

@@ -66,7 +66,7 @@ class Project(TimestampMixin, db.Model):
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     end_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     users = relationship(User, secondary=users_projects, back_populates='projects')
-    tasks = relationship('Task', back_populates='project')
+    tasks = relationship('Task', cascade="all,delete", back_populates='project')
 
 
 class Task(TimestampMixin, db.Model):
