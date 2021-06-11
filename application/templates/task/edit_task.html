@@ -27,15 +27,15 @@
                     <label for="description">Description</label>
                 </div>
                 {% for status in statuses %}
-                    {% if status == task.status.name %}
+                    {% if status.name == task.status.name %}
                        <div class="form-floating mb-3">
-                            <input type="radio" name="status" id="{{ status }}"
-                            value="{{ status }}" checked> {{ statuses[status] }}
+                            <input type="radio" name="status" id="{{ status.name }}"
+                            value="{{ status.name }}" checked> {{ status.value }}
                        </div>
                     {% else %}
                        <div class="form-floating mb-3">
-                            <input type="radio" name="status" id="{{ status }}1"
-                            value="{{ status }}"> {{ statuses[status] }}
+                            <input type="radio" name="status" id="{{ status.name }}1"
+                            value="{{ status.name }}"> {{ status.value }}
                        </div>
                     {% endif %}
                 {% endfor %}

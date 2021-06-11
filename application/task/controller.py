@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
 
 from application import db
-from application.models import User, Task, Project
+from application.models import User, Task, Project, Status
 from application.task.form import TaskForm
 
 
@@ -12,8 +12,7 @@ def create_task(project_id):
     form.assignee_id.choices = project.users
     if request.method == 'POST':
         creator = User.query.get(current_user.id)
-        elected_member = request.form.get('members')
-        assignee_id = int(elected_member)
+        assignee_id = int(request.form.get('members'))
         new_task = Task(
             project_id=project_id,
             subject=form.subject.data,
@@ -30,32 +29,23 @@ def create_task(project_id):
 
 def edit_task(task_id):
     task = Task.query.get(task_id)
-    project_id = task.project_id
     form = TaskForm(request.form, obj=task)
     form.assignee_id.choices = task.project.users
-    statuses = {
-        'to_do': 'To do',
-        'in_progress': 'In progress',
-        'in_review': 'In review',
-        'done': 'Done'
-        }
     if request.method == 'POST':
         form.populate_obj(task)
         db.session.commit()
-        return redirect(url_for('task.show_tasks', project_id=project_id))
-    return render_template('task/edit_task.html', task=task, project_id=project_id, statuses=statuses, form=form)
+        return redirect(url_for('task.show_tasks', project_id=task.project_id))
+    return render_template('task/edit_task.html', task=task, project_id=task.project_id, statuses=Status, form=form)
 
 
 def delete_task(task_id):
     task = Task.query.get(task_id)
-    project_id = task.project_id
     db.session.delete(task)
     db.session.commit()
     flash(f'The task {task.subject} has been deleted')
-    return redirect(url_for('project.show_project', project_id=project_id))
+    return redirect(url_for('project.show_project', project_id=task.project_id))
 
 
 def show_tasks(project_id):
-    tasks_data = Task.query.filter_by(project_id=project_id).all()
-    tasks_data.reverse()
-    return render_template('task/tasks.html', tasks_data=tasks_data, project_id=project_id)
+    tasks_data = Task.query.filter_by(project_id=project_id).order_by(Task.created_at.desc()).all()
+    return render_template('task/tasks.html', tasks_data=tasks_data)

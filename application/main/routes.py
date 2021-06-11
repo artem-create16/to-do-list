@@ -16,15 +16,7 @@ def index():
             Project.subject.contains(search) |
             Project.description.contains(search) |
             Project.short_description.contains(search)
-        ).all()
-        projects.reverse()
-
+        ).order_by(Project.created_at.desc()).all()
     else:
-        projects = Project.query.all()
-        projects.reverse()
-    return render_template(
-        'main/index.html',
-        title='Index',
-        projects=projects
-    )
-
+        projects = Project.query.order_by(Project.created_at.desc()).all()
+    return render_template('main/index.html', title='Index', projects=projects)
