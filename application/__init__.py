@@ -14,7 +14,7 @@ migrate = Migrate()
 login_manager = flask_login.LoginManager()
 
 
-def init_app():
+def init_app(for_test=None):
     app = Flask(__name__)
     app.config['SECRET_KEY'] = str(os.getenv("SECRET_KEY"))
     app.config['SQLALCHEMY_DATABASE_URI'] = str(os.getenv("SQLALCHEMY_DATABASE_URI"))
@@ -33,7 +33,9 @@ def init_app():
         app.register_blueprint(task_blueprint)
         # commands
         from application.core.commands import seed_db
+        from application.test.test_app import test_func
         app.cli.add_command(seed_db)
+        app.cli.add_command(test_func)
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
