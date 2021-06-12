@@ -6,12 +6,15 @@ from flask import Flask
 from flask_admin import Admin
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail, Message
+
 
 load_dotenv()
 
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = flask_login.LoginManager()
+mail = Mail()
 
 
 def init_app():
@@ -19,6 +22,12 @@ def init_app():
     app.config['SECRET_KEY'] = str(os.getenv("SECRET_KEY"))
     app.config['SQLALCHEMY_DATABASE_URI'] = str(os.getenv("SQLALCHEMY_DATABASE_URI"))
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = str(os.getenv("WORK_MAIL"))
+    app.config['MAIL_PASSWORD'] = str(os.getenv("WORK_MAIL_PASSWORD"))
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
 
     with app.app_context():
         from application.main.routes import main_blueprint
@@ -37,6 +46,7 @@ def init_app():
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    mail.init_app(app)
     admin = Admin(app, name='To do list', url='/', index_view=HomeAdminView(name='Home'))
 
     admin.add_view(AdminView(User, db.session, name='Users',

@@ -1,7 +1,9 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
-
+from flask_mail import Message
+import os
 from application import db
+from application import mail
 from application.models import User, Task, Project, Status
 from application.task.form import TaskForm
 
@@ -34,8 +36,20 @@ def edit_task(task_id):
     if request.method == 'POST':
         form.populate_obj(task)
         db.session.commit()
+        msg = Message(
+            'Task status has changed',
+            sender=os.environ['WORK_MAIL'],
+            recipients=[os.environ['ADMIN_EMAIL']]
+        )
+        msg.body = f"The status of the task '{task.subject}' has been changed to '{task.status.value}'"
+        mail.send(msg)
         return redirect(url_for('task.show_tasks', project_id=task.project_id))
-    return render_template('task/edit_task.html', task=task, project_id=task.project_id, statuses=Status, form=form)
+    return render_template(
+        'task/edit_task.html',
+        task=task,
+        project_id=task.project_id,
+        statuses=Status,
+        form=form)
 
 
 def delete_task(task_id):

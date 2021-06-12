@@ -1,4 +1,5 @@
 import os
+
 from flask import Blueprint, render_template, request
 
 from application.models import Project
