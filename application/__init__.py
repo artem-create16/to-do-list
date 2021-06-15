@@ -34,12 +34,14 @@ def init_app():
         from application.auth.routes import auth_blueprint
         from application.project.routes import project_blueprint
         from application.task.routes import task_blueprint
+        from application.error.routes import error_blueprint
         from application.models import User, Task, Project
         from .admin import AdminView, HomeAdminView
         app.register_blueprint(main_blueprint)
         app.register_blueprint(auth_blueprint)
         app.register_blueprint(project_blueprint)
         app.register_blueprint(task_blueprint)
+        app.register_blueprint(error_blueprint)
         # commands
         from application.core.commands import seed_db
         app.cli.add_command(seed_db)
