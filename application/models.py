@@ -42,6 +42,7 @@ class User(UserMixin, TimestampMixin, db.Model):
     password = db.Column(db.String(), nullable=False)
     role = db.Column(ENUM(Role), nullable=False)
     projects = relationship('Project', secondary=users_projects, back_populates='users')
+    comments = relationship('Comment', backref='user', lazy='dynamic')
 
     def set_password(self, password):
         """Create hashed password."""
@@ -80,3 +81,13 @@ class Task(TimestampMixin, db.Model):
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     status = db.Column(ENUM(Status), nullable=False)
+    comments = relationship('Comment', backref='task', lazy='dynamic')
+
+
+class Comment(TimestampMixin, db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=False)

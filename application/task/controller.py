@@ -1,10 +1,12 @@
+import os
+
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
 from flask_mail import Message
-import os
+
 from application import db
 from application import mail
-from application.models import User, Task, Project, Status
+from application.models import Task, Project, Status
 from application.task.form import TaskForm
 
 
@@ -13,13 +15,12 @@ def create_task(project_id):
     form = TaskForm()
     form.assignee_id.choices = project.users
     if request.method == 'POST':
-        creator = User.query.get(current_user.id)
         assignee_id = int(request.form.get('members'))
         new_task = Task(
             project_id=project_id,
             subject=form.subject.data,
             description=form.description.data,
-            creator_id=creator.id,
+            creator_id=current_user.id,
             assignee_id=assignee_id,
             status='to_do'
         )
