@@ -7,5 +7,5 @@ error_blueprint = Blueprint('error', __name__, url_prefix='/error', template_fol
 
 
 @error_blueprint.app_errorhandler(403)
-def not_found_error(error):
+def status_code_403(error):
     return render_template('error/error_403.html'),403

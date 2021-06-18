@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user
 from typing import Optional
 
-from application.models import User
+from application.models import User, Role
 from application.auth.form import SignUpForm, SignInForm
 from application import db, login_manager
 
@@ -76,7 +76,7 @@ def sign_up():
             user = User(
                 username=form.username.data,
                 email=form.email.data,
-                role='user'
+                role=Role.user.name
             )
             user.set_password(form.password.data)
             db.session.add(user)

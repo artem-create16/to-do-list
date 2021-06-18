@@ -1,10 +1,10 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
-import os
 from application import db
 from application.models import User, Task, Project, Status
 from application.task.form import TaskForm
 from application.helper.notification import send_notification
+
 
 def create_task(project_id):
     project = Project.query.get(project_id)
@@ -19,7 +19,7 @@ def create_task(project_id):
             description=form.description.data,
             creator_id=creator.id,
             assignee_id=assignee_id,
-            status='to_do'
+            status=Status.to_do.name
         )
         db.session.add(new_task)
         db.session.commit()
