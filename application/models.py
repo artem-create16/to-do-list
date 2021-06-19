@@ -21,6 +21,11 @@ class Status(enum.Enum):
     done = 'Done'
 
 
+class Type(enum.Enum):
+    to_the_comment = 'To the comment'
+    to_the_task = 'To the task'
+
+
 class TimestampMixin(object):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
@@ -31,6 +36,12 @@ users_projects = db.Table(
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
     db.Column('project_id', db.Integer, db.ForeignKey('projects.id'))
 )
+
+tasks_comments = db.Table(
+    'tasks_comments',
+    db.Column('task_id', db.Integer, db.ForeignKey('tasks.id')),
+    db.Column('comments_id', db.Integer, db.ForeignKey('comments.id')),
+    db.Column('type'), db.String)
 
 
 class User(UserMixin, TimestampMixin, db.Model):
@@ -66,7 +77,7 @@ class Project(TimestampMixin, db.Model):
     description = db.Column(db.Text)
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     end_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    users = relationship(User, secondary=users_projects, back_populates='projects')
+    users = relationship('User', secondary=users_projects, back_populates='projects')
     tasks = relationship('Task', cascade="all,delete", back_populates='project')
 
 
@@ -81,7 +92,7 @@ class Task(TimestampMixin, db.Model):
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     status = db.Column(ENUM(Status), nullable=False)
-    comments = relationship('Comment', backref='task', lazy='dynamic')
+    comment = relationship('Comment', secondary=tasks_comments, back_populates='tasks')
 
 
 class Comment(TimestampMixin, db.Model):
@@ -89,5 +100,7 @@ class Comment(TimestampMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text, nullable=False)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=False)
+    parent_comment = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    task = relationship('Task', secondary=tasks_comments, back_populates='comments')
