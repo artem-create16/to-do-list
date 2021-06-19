@@ -39,8 +39,8 @@ users_projects = db.Table(
 
 tasks_comments = db.Table(
     'tasks_comments',
-    db.Column('task_id', db.Integer, db.ForeignKey('tasks.id')),
-    db.Column('comments_id', db.Integer, db.ForeignKey('comments.id')),
+    db.Column('child', db.Integer),
+    db.Column('parent', db.Integer),
     db.Column('type'), db.String)
 
 
@@ -100,7 +100,5 @@ class Comment(TimestampMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text, nullable=False)
-    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=False)
-    parent_comment = db.Column(db.Integer, db.ForeignKey('comments.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     task = relationship('Task', secondary=tasks_comments, back_populates='comments')
