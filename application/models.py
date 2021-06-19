@@ -58,6 +58,12 @@ class User(UserMixin, TimestampMixin, db.Model):
 class Project(TimestampMixin, db.Model):
     __tablename__ = 'projects'
 
+    def __init__(self, title, subject, short_description, description):
+        self.title = title
+        self.subject = subject
+        self.short_description = short_description
+        self.description = description
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), nullable=False)
     subject = db.Column(db.String(), nullable=False)
@@ -71,6 +77,14 @@ class Project(TimestampMixin, db.Model):
 
 class Task(TimestampMixin, db.Model):
     __tablename__ = 'tasks'
+
+    def __init__(self, project_id, subject, description, creator_id, assignee_id, status):
+        self.project_id = project_id
+        self.subject = subject
+        self.description = description
+        self.creator_id = creator_id
+        self.assignee_id = assignee_id
+        self.status = status
 
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)

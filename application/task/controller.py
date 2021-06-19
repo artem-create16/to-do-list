@@ -13,14 +13,12 @@ def create_task(project_id):
     if request.method == 'POST':
         creator = User.query.get(current_user.id)
         assignee_id = int(request.form.get('members'))
-        new_task = Task(
-            project_id=project_id,
-            subject=form.subject.data,
-            description=form.description.data,
-            creator_id=creator.id,
-            assignee_id=assignee_id,
-            status=Status.to_do.name
-        )
+        new_task = Task(project_id,
+                        form.subject.data,
+                        form.description.data,
+                        creator.id,
+                        assignee_id,
+                        Status.to_do.name)
         db.session.add(new_task)
         db.session.commit()
         return redirect(url_for('project.show_project', project_id=project_id))

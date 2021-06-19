@@ -30,11 +30,10 @@ def create_project():
     form = ProjectForm()
     form.users.choices = members
     if form.validate_on_submit():
-        new_project = Project(
-            title=form.title.data,
-            subject=form.subject.data,
-            short_description=form.short_description.data,
-            description=form.description.data)
+        new_project = Project(form.title.data,
+                              form.subject.data,
+                              form.short_description.data,
+                              form.description.data)
         save_data(new_project)
         return redirect(url_for('project.show_projects'))
     return render_template('project/creating.html', title='Creating project', form=form)
