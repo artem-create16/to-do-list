@@ -36,7 +36,7 @@ def init_app():
         from application.task.routes import task_blueprint
         from application.error.routes import error_blueprint
         from application.comment.routes import comment_blueprint
-        from application.models import User, Task, Project
+        from application.models import User, Task, Project, Comment
         from .admin import AdminView, HomeAdminView
         app.register_blueprint(main_blueprint)
         app.register_blueprint(auth_blueprint)

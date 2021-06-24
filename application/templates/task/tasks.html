@@ -2,7 +2,6 @@
 
 {% block content %}
 
-    <body>
         {% for task in tasks_data %}
             {% if task.assignee_id == current_user.id or current_user.role.name == 'admin' %}
                 <p>Subject: {{ task.subject }}</p>
@@ -19,4 +18,5 @@
             <hr>
         {% endfor %}
     </body>
+
 {% endblock %}

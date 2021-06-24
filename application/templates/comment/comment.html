@@ -4,28 +4,23 @@
 
     <div class="row align-items-center h-100">
         <div class="col-6 mx-auto">
-            <form action="" method="POST">
-                {{ form.csrf_token }}
                 <p>Subject: {{ task.subject }}</p>
                 <p>Description: {{ task.description }}</p>
                 <p>Creator: {{ task.creator_id }}</p>
                 <p>Assignee: {{ task.assignee_id }}</p>
                 <p>Status: {{ task.status.value }}</p>
+                <a type="text" href="{{ url_for('comment.create_comment', task_id=task.id, parent_id=task.id) }}">Reply</a>
+                <hr>
+                <h6>Comments:</h6>
                 <hr>
                 {% for comment in comments %}
-                    <p>Author: {{ comment.author_id }}</p>
-                    <p>Comment: {{ comment.body }}</p>
+                    <p>Author: {{ comment.creator_id }}</p>
+                    <p>Comment: {{ comment.subject }}</p>
+                    <a type="text" href="{{ url_for('comment.create_comment', task_id=task.id, parent_id=comment.id) }}">Reply</a>
                 <hr>
                 {% endfor %}
-                <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="body" id="body" placeholder="body">
-                    <label for="body">Body</label>
-                </div>
 
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Send</button>
-                <p class="mt-5 mb-3 text-muted text-center"></p>
             </form>
         </div>
     </div>
-
 {% endblock %}
