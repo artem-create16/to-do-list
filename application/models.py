@@ -21,6 +21,11 @@ class Status(enum.Enum):
     done = 'Done'
 
 
+class Species(enum.Enum):
+    to_the_comment = 'To the comment'
+    to_the_task = 'To the task'
+
+
 class TimestampMixin(object):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
@@ -42,6 +47,7 @@ class User(UserMixin, TimestampMixin, db.Model):
     password = db.Column(db.String(), nullable=False)
     role = db.Column(ENUM(Role), nullable=False)
     projects = relationship('Project', secondary=users_projects, back_populates='users')
+    comments = relationship('Comment', back_populates='author')
 
     def set_password(self, password):
         """Create hashed password."""
@@ -71,7 +77,7 @@ class Project(TimestampMixin, db.Model):
     description = db.Column(db.Text)
     start_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     end_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    users = relationship(User, secondary=users_projects, back_populates='projects')
+    users = relationship('User', secondary=users_projects, back_populates='projects')
     tasks = relationship('Task', cascade="all,delete", back_populates='project')
 
 
@@ -94,3 +100,18 @@ class Task(TimestampMixin, db.Model):
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     status = db.Column(ENUM(Status), nullable=False)
+    comments = relationship('Comment', back_populates='task')
+
+
+class Comment(TimestampMixin, db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    subject = db.Column(db.Text, nullable=False)
+    creator_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    task_id = db.Column(db.Integer, db.ForeignKey('tasks.id'), nullable=False)
+    task = relationship('Task', back_populates='comments')
+    species = db.Column(ENUM(Species), nullable=False)
+    parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'))
+    children = relationship("Comment")
+    author = relationship("User", back_populates="comments")

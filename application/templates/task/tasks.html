@@ -2,7 +2,6 @@
 
 {% block content %}
 
-    <body>
         {% for task in tasks_data %}
             {% if task.assignee_id == current_user.id or current_user.role.name == 'admin' %}
                 <p>Subject: {{ task.subject }}</p>
@@ -14,8 +13,10 @@
                     <a type="button" class="btn btn-outline-danger" href="{{ url_for('task.delete_task', task_id=task.id) }}">Delete</a>
                 {% endif %}
                 <a type="button" class="btn btn-outline-primary" href="{{ url_for('task.edit_task', task_id=task.id) }}">Edit</a>
+                <a type="button" class="btn btn-outline-primary" href="{{ url_for('comment.show_comments', task_id=task.id) }}">Comments</a>
             {% endif %}
             <hr>
         {% endfor %}
     </body>
+
 {% endblock %}

@@ -1,7 +1,9 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
+
 from application import db
-from application.models import User, Task, Project, Status
+from application.models import Task, Project, Status
+
 from application.task.form import TaskForm
 from application.helper.notification import send_notification
 
@@ -11,14 +13,14 @@ def create_task(project_id):
     form = TaskForm()
     form.assignee_id.choices = project.users
     if request.method == 'POST':
-        creator = User.query.get(current_user.id)
         assignee_id = int(request.form.get('members'))
         new_task = Task(project_id,
                         form.subject.data,
                         form.description.data,
-                        creator.id,
+                        current_user.id,
                         assignee_id,
                         Status.to_do.name)
+
         db.session.add(new_task)
         db.session.commit()
         return redirect(url_for('project.show_project', project_id=project_id))

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="row align-items-center h-100">
+        <div class="col-6 mx-auto">
+            <form action="" method="POST">
+            {{ form.csrf_token }}
+            <p>Task: {{ task.subject}}</p>
+            <p>Creator: {{ parent.creator_id }}</p>
+            <p>Reply to: {{ parent.subject }}</p>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="subject">
+                <label for="subject">Subject</label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Reply</button>
+            <p class="mt-5 mb-3 text-muted text-center"></p>
+        </form>
+    </div>
+</div>
+{% endblock %}
