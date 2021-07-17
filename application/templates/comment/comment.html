@@ -19,8 +19,6 @@
                     <a type="text" href="{{ url_for('comment.create_comment', task_id=task.id, parent_id=comment.id) }}">Reply</a>
                 <hr>
                 {% endfor %}
-
-            </form>
         </div>
     </div>
 {% endblock %}
