@@ -25,7 +25,7 @@ Open http://0.0.0.0:5000/ in your browser <br />
 Click "Sign up" if you want to register or "Sign in" as admin (if you use command "flask seed" login is your email from .env file, password: "123123") or as common user if you already have account <br />
 On mane page you can see all projects <br />
 If you are admin you can create projects. Just click "Create new project" and fill required rows. There you can select one or several users for whom this project was created <br />
-![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/create_proj.png?raw=true) <br />
+![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/create-proj.png?raw=true) <br />
 Then, by clicking on the name of the project and select "Create task", you can create a task for each of the selected project participants <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/create_task.png?raw=true) <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/create_task2.png?raw=true) <br />
