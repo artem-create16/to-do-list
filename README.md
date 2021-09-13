@@ -35,8 +35,8 @@ Also, the admin can delete and modify projects and tasks, for this click "Edit" 
 Regular users who are assigned a task can edit the progress <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/edit_status.png?raw=true) <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/edit_status2.png?raw=true) <br />
-If you are an administrator, then you will receive a notification about the change in the progress of the task to the mail that you indicated in .env file
-Users can write comments on tasks 
+If you are an administrator, then you will receive a notification about the change in the progress of the task to the mail that you indicated in .env file <br />
+Users can write comments on tasks <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/comments.png?raw=true) <br />
 Click "Reply" and send your message <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/comments2.png?raw=true) <br />
