@@ -6,8 +6,6 @@
             <form action="" method="POST">
             {{ form.csrf_token }}
             <p>Task: {{ task.subject}}</p>
-            <p>Creator: {{ parent.creator_id }}</p>
-            <p>Reply to: {{ parent.subject }}</p>
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="subject" id="subject" placeholder="subject">
                 <label for="subject">Subject</label>

@@ -16,7 +16,7 @@ def show_comments(task_id):
     return controller.show_comments(task_id)
 
 
-@comment_blueprint.route('/<task_id>/<parent_id>/reply', methods = ['POST', 'GET'])
+@comment_blueprint.route('/<task_id>/reply', methods = ['POST', 'GET'])
 @login_required
-def create_comment(task_id, parent_id):
-    return controller.create_comment(task_id, parent_id)
+def create_comment(task_id):
+    return controller.create_comment(task_id)

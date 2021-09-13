@@ -12,14 +12,9 @@ def show_comments(task_id):
                            comments=task.comments)
 
 
-def create_comment(task_id, parent_id):
+def create_comment(task_id):
     task = Task.query.get(task_id)
-    parent = Comment.query.get(parent_id)
     species = Species.to_the_comment.name
-    if parent is None:
-        parent = task
-        species = Species.to_the_task.name
-        parent_id = None
     form = CommentForm()
     if request.method == 'POST':
         print("000000000", flush=True)
@@ -27,10 +22,9 @@ def create_comment(task_id, parent_id):
             subject=form.subject.data,
             creator_id=current_user.id,
             task_id=task.id,
-            parent_id=parent_id,
             species=species
         )
         db.session.add(new_comment)
         db.session.commit()
         return redirect(url_for('comment.show_comments', task_id=task_id))
-    return render_template('comment/add_comment.html', parent=parent, task=task, form=form)
+    return render_template('comment/add_comment.html', task=task, form=form)
