@@ -18,7 +18,6 @@
                 <p>Comment: {{ comment.subject }}</p>
                 <a type="text" href="{{ url_for('comment.create_comment', task_id=task.id) }}">Reply</a>
                 <hr>
-            {% endfor %}
         </div>
     </div>
 {% endblock %}
