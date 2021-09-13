@@ -38,10 +38,9 @@ Regular users who are assigned a task can edit the progress <br />
 If you are an administrator, then you will receive a notification about the change in the progress of the task to the mail that you indicated in .env file
 Users can write comments on tasks 
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/comments.png?raw=true) <br />
-Click "Reply" and send your message
+Click "Reply" and send your message <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/comments2.png?raw=true) <br />
 Admin can control all projects, tasks and users <br />
-Click "Admin" and select what you want to do
+Click "Admin" and select what you want to do <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/admin.png?raw=true) <br />
 ![alt text](https://github.com/artem-create16/to-do-list/blob/master/asserts/images/admin2.png?raw=true) <br />
-
