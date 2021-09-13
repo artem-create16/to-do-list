@@ -1,10 +1,10 @@
-# Metathesis
+# To-do-list
 ## Description
-Here you can show everyone your ad for the sale of something
+Here you can create projects for users, create tasks for projects, edit and delete them, as well as write comments on tasks
 ## Installation
 ```
-git clone https://github.com/artem-create16/metathesis.git
-cd metathesis
+git clone https://github.com/artem-create16/to-do-list.git
+cd to-do-list
 ```
 Rename .env.example file to .env and fill all rows
 
@@ -14,11 +14,11 @@ docker-compose build
 docker-compose up
 ```
 
-(Optional. To populate the database with random values)
+(To populate the database with random values)
 
 ```
 docker ps
-docker exec -it {container id "metathesis_db_1"} flask seed 
+docker exec -it {container id "to-do-list_db_1"} flask seed 
 ```
 ## Usage
 Open http://0.0.0.0:5000/ in your browser <br />
